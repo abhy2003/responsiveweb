@@ -12,19 +12,19 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(
-      context,
-      designSize: Size(360, 690),
+    return ScreenUtilInit(
+      designSize: Size(360, 690), // Set the design size based on your design
       minTextAdapt: true,
       splitScreenMode: false,
-    );
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      scrollBehavior: const MaterialScrollBehavior().copyWith(
-        dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
-      ),
-      home: HomeScreen(),
+      builder: (context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          scrollBehavior: const MaterialScrollBehavior().copyWith(
+            dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+          ),
+          home: HomeScreen(),
+        );
+      },
     );
   }
 }

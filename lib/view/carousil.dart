@@ -8,39 +8,30 @@ class BannerImages extends StatelessWidget {
   Widget build(BuildContext context) {
     List<CarouselItem> itemList = [
       CarouselItem(
-        image: const AssetImage('assets/images/fitness_background.jpg'),
+        image: AssetImage('assets/images/banner_image1.jpg'), // Use AssetImage for ImageProvider
         onImageTap: (i) {},
       ),
       CarouselItem(
-        image: const AssetImage('assets/images/fitness_background.jpg'),
+        image: AssetImage('assets/images/banner_image2.jpg'), // Use AssetImage for ImageProvider
         onImageTap: (i) {},
       ),
       CarouselItem(
-        image: const AssetImage('assets/images/fitness_background.jpg'),
+        image: AssetImage('assets/images/banner_image3.jpg'), // Use AssetImage for ImageProvider
         onImageTap: (i) {},
       ),
     ];
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Wrap the CustomCarouselSlider with a SizedBox or Container
-            SizedBox(
-              height: 250.0,  // Set a fixed height for the carousel
-              width: MediaQuery.of(context).size.width,  // Full screen width
-              child: CustomCarouselSlider(
-                items: itemList,
-                autoplay: true,
-                showText: false,
-                showSubBackground: false,
-                indicatorShape: BoxShape.circle,
-                selectedDotColor: Colors.red,
-                unselectedDotColor: Colors.grey,
-              ),
-            ),
-          ],
-        ),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width, // Full screen width
+      height: MediaQuery.of(context).size.height * 0.4, // Height of the carousel (adjustable)
+      child: CustomCarouselSlider(
+        items: itemList,
+        autoplay: true,
+        showText: false,
+        showSubBackground: false,
+        indicatorShape: BoxShape.circle,
+        selectedDotColor: Colors.red,
+        unselectedDotColor: Colors.grey,
       ),
     );
   }
