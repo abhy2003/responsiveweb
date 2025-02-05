@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'carousil.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
+
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Mobile Layout
   Widget buildMobileLayout() {
     return SafeArea(
       child: Column(
@@ -29,8 +31,8 @@ class HomeScreen extends StatelessWidget {
           AppBar(
             backgroundColor: const Color(0xFF171C23),
             title: Image.asset(
-              'assets/images/logo.png', // Replace with your logo
-              height: 40.h, // Adjust logo size responsively
+              'assets/images/logo.png',
+              height: 40.h,
             ),
             centerTitle: true,
             actions: [
@@ -41,38 +43,22 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: Stack(
-              children: [
-                Image.asset(
-                  'assets/images/fitness_background.jpg', // Background image for mobile
-                  fit: BoxFit.cover,
-                  height: double.infinity,
-                  width: double.infinity,
+            child: Scrollbar(
+              thumbVisibility: true,
+              controller: _scrollController,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                padding: EdgeInsets.all(16.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BannerImages(),
+                    _buildHeroSection(),
+                    SizedBox(height: 20.h),
+                    _aboutsection(),
+                  ],
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black.withOpacity(0.6),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                  child: SafeArea(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.all(16.w), // Use ScreenUtil for padding
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildHeroSection(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ],
@@ -80,7 +66,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Hero Section
   Widget _buildHeroSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,60 +73,96 @@ class HomeScreen extends StatelessWidget {
         Text(
           "WELCOME TO OUR FITNESS CENTER",
           style: TextStyle(
-            fontSize: 28.sp, // Use ScreenUtil for font size
+            fontSize: 28.sp,
             fontWeight: FontWeight.bold,
             color: Colors.white,
             fontFamily: 'Poppins',
           ),
         ),
-        SizedBox(height: 8.h),  // Use ScreenUtil for spacing
+        SizedBox(height: 8.h),
         Text(
           "Stay healthy by exercising at the best gym center",
-          style: TextStyle(fontSize: 18.sp, color: Colors.white, fontFamily: 'Poppins'),
+          style: TextStyle(
+              fontSize: 18.sp, color: Colors.white, fontFamily: 'Poppins'),
         ),
       ],
     );
   }
 
-  // Tablet Layout
+  Widget _aboutsection() {
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(12.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "FEATURED PROGRAMS",
+            style: TextStyle(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          SizedBox(height: 10.h),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: constraints.maxWidth > 400 ? 2 : 1,
+                  crossAxisSpacing: 10.w,
+                  mainAxisSpacing: 10.h,
+                  childAspectRatio: 3 / 2,
+                ),
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r)),
+                    child: Center(
+                      child: Text(
+                        "Program ${index + 1}",
+                        style: TextStyle(
+                            fontSize: 16.sp, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget buildTabletLayout() {
     return SafeArea(
       child: Column(
         children: [
           _buildNavigation(),
           Expanded(
-            child: Stack(
-              children: [
-                Image.asset(
-                  'assets/images/fitness_background.jpg', // Background image for tablet
-                  fit: BoxFit.cover,
-                  height: double.infinity,
-                  width: double.infinity,
+            child: Scrollbar(
+              controller: _scrollController,
+              thumbVisibility: true,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                padding: EdgeInsets.all(16.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BannerImages(),
+                    _buildHeroSection(),
+                    _aboutsection(),
+                  ],
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black.withOpacity(0.6),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                  child: SafeArea(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.all(16.w), // Use ScreenUtil for padding
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildHeroSection(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ],
@@ -149,45 +170,27 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Desktop Layout
   Widget buildDesktopLayout() {
     return SafeArea(
       child: Column(
         children: [
           _buildNavigation(),
           Expanded(
-            child: Stack(
-              children: [
-                Image.asset(
-                  'assets/images/fitness_background.jpg', // Background image for desktop
-                  fit: BoxFit.cover,
-                  height: double.infinity,
-                  width: double.infinity,
+            child: Scrollbar(
+              controller: _scrollController,
+              thumbVisibility: true,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                padding: EdgeInsets.all(16.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BannerImages(),
+                    _buildHeroSection(),
+                    _aboutsection(),
+                  ],
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black.withOpacity(0.6),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                  child: SafeArea(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.all(16.w), // Use ScreenUtil for padding
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildHeroSection(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ],
@@ -195,13 +198,12 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Combined Navbar Widget
   Widget _buildNavigation() {
     return Container(
       color: const Color(0xFF171C23),
       child: Column(
         children: [
-          Container( // Top Bar
+          Container(
             height: 40.0,
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
@@ -244,60 +246,70 @@ class HomeScreen extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.facebook, size: 18, color: Colors.white),
+                      icon: const Icon(Icons.facebook,
+                          size: 18, color: Colors.white),
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.youtube_searched_for, size: 18, color: Colors.white),
+                      icon: const Icon(Icons.youtube_searched_for,
+                          size: 18, color: Colors.white),
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.whatshot, size: 18, color: Colors.white),
+                      icon: const Icon(Icons.whatshot,
+                          size: 18, color: Colors.white),
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.mail, size: 18, color: Colors.white),
+                      icon:
+                      const Icon(Icons.mail, size: 18, color: Colors.white),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          Container( // Bottom Bar
+          Container(
             height: 80.0,
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
-                  'assets/images/logo.png', // Your logo path
+                  'assets/images/logo.png',
                   height: 40.0,
                 ),
                 Wrap(
                   children: [
                     TextButton(
                       onPressed: () {},
-                      child: const Text("Home", style: TextStyle(color: Colors.white, fontSize: 16)),
+                      child: const Text("Home",
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text("About", style: TextStyle(color: Colors.white, fontSize: 16)),
+                      child: const Text("About",
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text("Courses", style: TextStyle(color: Colors.white, fontSize: 16)),
+                      child: const Text("Courses",
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text("Blogs", style: TextStyle(color: Colors.white, fontSize: 16)),
+                      child: const Text("Blogs",
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text("Pages", style: TextStyle(color: Colors.white, fontSize: 16)),
+                      child: const Text("Pages",
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text("Contact", style: TextStyle(color: Colors.white, fontSize: 16)),
+                      child: const Text("Contact",
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                   ],
                 ),

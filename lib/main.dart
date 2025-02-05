@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,15 +12,18 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Initialize ScreenUtil within the build method using the BuildContext
     ScreenUtil.init(
       context,
-      designSize: Size(375, 812), // Replace with your design size
-      minTextAdapt: true, // This ensures that text scaling is adapted to the screen size
-      splitScreenMode: false, // Optional, can be used for large screens
+      designSize: Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: false,
     );
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+      ),
       home: HomeScreen(),
     );
   }

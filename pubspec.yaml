@@ -38,6 +38,8 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_font_icons: ^2.2.7
   flutter_screenutil: ^5.9.3
+  flutter_custom_carousel_slider: ^1.2.0
+  responsive_framework: ^1.5.1
 
 dev_dependencies:
   flutter_test:
@@ -65,7 +67,9 @@ flutter:
   assets:
      - assets/images/fitness_background.jpg
      - assets/images/logo.png
-     - assets/images/green-texture.jpg
+     - assets/images/banner_image1.jpg
+     - assets/images/banner_image2.jpg
+     - assets/images/banner_image3.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

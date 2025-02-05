@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Responsive extends StatelessWidget {
   final Widget mobile;
@@ -17,9 +18,12 @@ class Responsive extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double maxWidth = constraints.maxWidth;
+    return ScreenUtilInit(
+      designSize: const Size(360, 690), // Base size for scaling
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        double maxWidth = MediaQuery.of(context).size.width;
 
         if (maxWidth >= tabletBreakpoint) {
           return desktop;
