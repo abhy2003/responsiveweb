@@ -40,6 +40,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   flutter_custom_carousel_slider: ^1.2.0
   responsive_framework: ^1.5.1
+  sizer: ^3.0.5
 
 dev_dependencies:
   flutter_test:

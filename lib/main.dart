@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           scrollBehavior: const MaterialScrollBehavior().copyWith(
             dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
           ),
-          home: HomeScreen(),
+          home: ResponsiveNavBar(),
         );
       },
     );
